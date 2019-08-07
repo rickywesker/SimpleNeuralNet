@@ -1,0 +1,42 @@
+from numpy import exp, array, random, dot, linspace
+import matplotlib.patches as mpatches
+import matplotlib.pyplot as plt
+
+
+def sigmoid(x):
+    return 1 / (1 + exp(-x))
+
+
+def sigmoid_der(x):
+    return sigmoid(x)*(1-sigmoid(x))
+
+
+feature_set = array([[0, 0, 1],  # Define feature set inputs
+                     [1, 1, 1],
+                     [1, 0, 1],
+                     [0, 1, 1]])
+labels = array([[0],  # Define correct values for the feature set
+                [1],
+                [1],
+                [0]])
+
+
+weights = random.random((3, 1))  # Define random weights
+lr = 0.05
+
+
+for epoch in range(2000):  # Train network loop
+    XW = dot(feature_set, weights)  #Sum of weights*input
+
+    z = sigmoid(XW)  # activation function
+
+    error = z - labels  # Error = our ouput - actual output
+    print(error.sum())
+
+    inputs = feature_set.T  # Why transpose the feature set?
+    weights -= lr * dot(inputs, error)  # Update weights
+
+
+single_point = array([1, 0, 0])
+result = sigmoid(dot(single_point, weights))
+print(result)

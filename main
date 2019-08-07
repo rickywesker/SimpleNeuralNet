@@ -1,4 +1,4 @@
-from numpy import exp, array, random, dot, linspace
+from numpy import exp, array, random, dot, linspace, arange
 import matplotlib.patches as mpatches
 import matplotlib.pyplot as plt
 
@@ -24,19 +24,25 @@ labels = array([[0],  # Define correct values for the feature set
 weights = random.random((3, 1))  # Define random weights
 lr = 0.05
 
-
+error_list = [] #store the error
 for epoch in range(2000):  # Train network loop
     XW = dot(feature_set, weights)  #Sum of weights*input
 
     z = sigmoid(XW)  # activation function
 
     error = z - labels  # Error = our ouput - actual output
-    print(error.sum())
-
+    #print(error.sum())
+    error_list.append(error.sum())
     inputs = feature_set.T  # Why transpose the feature set?
     weights -= lr * dot(inputs, error)  # Update weights
 
-
+error_arr = array(error_list)
 single_point = array([1, 0, 0])
 result = sigmoid(dot(single_point, weights))
+epoch = arange(2000)
+plt.plot(epoch,error_arr,label = "Error")
+plt.legend(loc = "upper right")
+plt.xlabel = "Epoch"
+plt.ylabel = "Error"
+plt.show()
 print(result)
